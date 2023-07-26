@@ -3,12 +3,18 @@ import React from 'react';
 import { useAnimeList } from '../hooks/useAnimeList';
 import { usePage } from '../contexts/PageContext';
 import styled from '@emotion/styled';
+import { PageProvider } from '../contexts/PageContext';
+
+import { Link } from 'react-router-dom';
+
+
+
 
 import { BsStarFill } from 'react-icons/bs';
 
-import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import CirclingAnimation from '../components/LoadingIndicator';
+import { Pagination } from '../components/Pagination';
 
 
 const Card = styled.div`
@@ -132,6 +138,8 @@ return (
     <ListContainer>
       <>
       {data.Page.media.map((anime:any) => (
+        
+        <Link key={anime.id} to={`/anime/${anime.id}`}>
         <ListItem key={anime.id}>
           <CoverImage src={anime.coverImage.large} alt={anime.title.romaji} />
           <Info> 
@@ -146,9 +154,12 @@ return (
               {anime.averageScore}%</Score>
           </Info>
         </ListItem>
+        </Link>
       ))}
+    <Pagination/>
       </>
     </ListContainer>
+
     </Card>
 );
 }

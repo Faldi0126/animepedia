@@ -1,19 +1,10 @@
 import React from 'react';
-import { AnimeList } from './views/AnimeList';
-import { Pagination } from './components/Pagination';
-import { PageProvider } from './contexts/PageContext';
-
-
+import { RouterProvider } from 'react-router-dom';
+import router from './routers';
 
 function App() {
   return (
-    <>
-    <PageProvider>
-      <AnimeList />
-      <Pagination />
-    </PageProvider>
-    </>
-    
+    <RouterProvider router={router} />
   );
 }
 

@@ -10,13 +10,19 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width: 100px;
+  width: 80px;
   height: 40px;
   margin: 10px;
   border: none;
+  border-radius: 20px;
   background-color: #333;
   color: white;
   font-size: 16px;
+`;
+
+const PageIndicator = styled.span`
+  font-size: 20px;
+  color: #333;
 `;
 
 export function Pagination() {
@@ -35,6 +41,9 @@ export function Pagination() {
       >
         Prev
       </Button>
+      <PageIndicator>
+        {currentPage} / {lastPage}
+      </PageIndicator>
       <Button
         disabled={!hasNextPage}
         onClick={() => setPage(currentPage + 1)}

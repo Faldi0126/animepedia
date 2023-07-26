@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 const NavbarContainer = styled.nav`
   width: 100%; 
@@ -52,7 +53,7 @@ export function Navbar() {
   
 return (
     <NavbarContainer>
-      <Title>ANIMEPEDIA</Title> 
+   <Link to={`/`} style={{ textDecoration: 'none' }}>   <Title>ANIMEPEDIA</Title>  </Link>
       <Button>Collection List</Button> 
     </NavbarContainer>
   );

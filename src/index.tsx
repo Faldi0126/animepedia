@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache ,ApolloProvider } from '@apollo/client';
 import { createGlobalStyle } from 'styled-components';
 
 import { Global } from '@emotion/react';
-import { Navbar } from './components/Navbar';
+import { PageProvider } from './contexts/PageContext';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -34,9 +34,10 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Navbar/>
     <GlobalStyle />
+    <PageProvider>
     <App />
+    </PageProvider>
     <Global styles={{
       body: {
         background: "linear-gradient(to right , #71c3f7, #f6f6f6)" 

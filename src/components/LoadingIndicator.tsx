@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-// Define a type for the component props
 type CircleProps = {
-  size?: number; // The size of the circle in pixels (default: 50)
-  color?: string; // The color of the circle (default: blue)
-  speed?: number; // The duration of one spin in seconds (default: 2)
+  size?: number; 
+  color?: string; 
+  speed?: number; 
 };
 
 const Circle = styled.div<CircleProps>`
