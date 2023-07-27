@@ -1,167 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAnime } from '../hooks/useSingleAnime';
-import styled from '@emotion/styled';
 import { BsStarFill } from 'react-icons/bs';
+import {
+  Banner,
+  Card,
+  Content,
+  CoverImage,
+  Info,
+  Title,
+  Genres,
+  Genre,
+  Episodes,
+  Description,
+  Score,
+} from '../components/AnimeDetailStyles'
 
-type BannerProps = React.ComponentPropsWithRef<'div'> & {
-  image: string;
-};
+// Import the modal library and the CSS file
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 
-const Banner = styled.div<BannerProps>`
-  width: 100%;
-  height: 50vh;
-  background-image: url(${props => props.image});
-  background-size: cover;
-  background-position: center;
-  filter: brightness(0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media (max-width: 768px) {
-    height: 30vh;
-  }
-`;
-
-const Card = styled.div`
-  width: 75%; 
-  min-height: 600px;
-  height: auto;
-  margin: 20px auto; 
-  padding: 40px 20px; 
-  background: white; 
-  border-radius: 30px; 
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-
-
-  @media (max-width: 393px) {
-    width: 75%;
-    padding: 10px;
-  }
-`;
-
-const Content = styled.div`
-display:flex; 
-align-items:center; 
-justify-content:center; 
-gap: 20px; 
-
-@media (max-width:768px) {
-    flex-direction: column; 
-}
-`;
-
-const CoverImage = styled.img`
-width:400px;
-height:auto; 
-object-fit:cover; 
-border-radius: 20px; 
-margin: 10px;
-margin-right: 20px;
-
-@media (max-width: 768px) {
-    width:auto; 
-    height:auto; 
-    margin:auto; 
-}
-`;
-
-const Info = styled.div`
-display:flex; 
-flex-direction: column; 
-gap: 30px; 
-width:60%; 
-align-items: flex-start;
-
-@media (max-width:768px) {
-    width:100%; 
-}
-`;
-
-const Title = styled.h1`
-font-size: 40px; 
-font-weight: bold; 
-text-align: center; 
-
-@media (max-width: 768px) {
-    font-size: 24px; 
-}
-`;
-
-const Genres = styled.p`
-margin: 0;
-display: flex; 
-flex-wrap: wrap; 
-gap: 5px; 
-justify-content: center; 
-`;
-
-const Genre = styled.span`
-background:#333; 
-border-radius: 5px; 
-padding: 5px 10px; 
-color: white; 
-font-size: 14px; 
-`;
-
-const Episodes = styled.p`
-margin: 0;
-font-size: 16px; 
-text-align: center; 
-
-@media (max-width: 768px) {
-    font-size: 14px; 
-}
-`;
-
-const Description = styled.p`
-margin: 0;
-font-size: 16px; 
-
-@media (max-width: 768px) {
-    font-size: 14px; 
-}
-`;
-
-const Score = styled.p`
-margin: 0;
-font-size: 16px; 
-text-align: center; 
-
-@media (max-width: 768px) {
-    font-size: 14px; 
-}
-`;
-
+import AnimeForm from '../components/AnimeForm';
 
 export function AnimeDetail() {
   
 const { id } = useParams();
 const { data, loading, error } = useAnime(parseInt(id?.toString() ?? '0'));
 
+// Define a state variable to store the modal open status
+const [modalIsOpen, setModalIsOpen] = React.useState(false);
+
+// Define a function to open the modal
+const openModal = () => {
+  setModalIsOpen(true);
+};
+
+// Define a function to close the modal
+const closeModal = () => {
+  setModalIsOpen(false);
+};
+
+
 if (loading) return <p>Loading...</p>;
 if (error) return <p>Error:{error.message}</p>;
 
+
+
 return (
-      <Card >
-        <Content>
-          <CoverImage src={data.Media.coverImage.large} alt={data.Media.title.romaji} />
-          <Info>
-            <Title>{data.Media.title.romaji}</Title>
-            <Genres>
-              {data.Media.genres.map((genre:string) => (
-                <Genre key={genre}>{genre}</Genre>  
-              ))}
-            </Genres>
-            <Episodes>{data.Media.episodes} episodes</Episodes>
-            <Description>{data.Media.description}</Description>
-            <Score>
-              <BsStarFill color="#FFD700" /> 
-              {data.Media.averageScore}%</Score>
-          </Info>
-        </Content>
-      </Card>
-    
+  <Card >
+    <Content>
+      <CoverImage src={data.Media.coverImage.large} alt={data.Media.title.romaji} />
+      <Info>
+        <Title>{data.Media.title.romaji}</Title>
+        <Genres>
+          {data.Media.genres.map((genre:string) => (
+            <Genre key={genre}>{genre}</Genre>  
+          ))}
+        </Genres>
+        <Episodes>{data.Media.episodes} episodes</Episodes>
+        <Description>{data.Media.description}</Description>
+        <Score>
+          <BsStarFill color="#FFD700" /> 
+          {data.Media.averageScore}%</Score>
+        <button onClick={openModal}>Add to collection</button>
+        // Set the center prop to true on the Modal component
+        <Modal open={modalIsOpen} onClose={closeModal} center>
+          <AnimeForm animeId={data.Media.id} />
+        </Modal>
+      </Info>
+    </Content>
+  </Card>
+
 );
 }

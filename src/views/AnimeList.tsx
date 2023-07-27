@@ -15,6 +15,7 @@ import { BsStarFill } from 'react-icons/bs';
 import 'react-circular-progressbar/dist/styles.css';
 import CirclingAnimation from '../components/LoadingIndicator';
 import { Pagination } from '../components/Pagination';
+import AnimeForm from '../components/AnimeForm';
 
 
 const Card = styled.div`
@@ -152,6 +153,7 @@ return (
             <Score>
               <BsStarFill color="#FFD700" /> 
               {anime.averageScore}%</Score>
+
           </Info>
         </ListItem>
         </Link>
